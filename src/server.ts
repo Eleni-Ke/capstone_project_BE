@@ -2,6 +2,7 @@ import Express from "express";
 import cors from "cors";
 import { badRequestHandler, genericErrorHandler } from "./errorHandlers";
 import usersRouter from "./api/users";
+import charactersRouter from "./api/characters";
 
 const server = Express();
 
@@ -11,6 +12,7 @@ server.use(Express.json());
 
 // ************************************** ENDPOINTS ***********************************
 server.use("/users", usersRouter);
+server.use("/characters", charactersRouter);
 
 // ************************************* ERROR HANDLERS *******************************
 server.use(badRequestHandler);
