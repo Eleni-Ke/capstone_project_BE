@@ -1,17 +1,18 @@
-import createHttpError from "http-errors";
 import { RequestHandler } from "express";
 import {
   checkSchema,
-  Schema,
   Location,
+  Schema,
   validationResult,
 } from "express-validator";
+import createHttpError from "http-errors";
 
-const characterSchema: Schema<"isString" | "in"> = {
-  name: {
+const placeSchema: Schema<"isString" | "in"> = {
+  placeName: {
     in: "body" as Location,
     isString: {
-      errorMessage: "Name is a mandatory field and needs to be a string!",
+      errorMessage:
+        "The name of the place is mandatory and needs to be a sting!",
     },
   },
   description: {
@@ -23,7 +24,7 @@ const characterSchema: Schema<"isString" | "in"> = {
   },
 };
 
-export const checkCharacterSchema = checkSchema(characterSchema);
+export const checkPlaceSchema = checkSchema(placeSchema);
 
 export const generateBadRequest: RequestHandler = (request, response, next) => {
   const errors = validationResult(request);
@@ -31,7 +32,7 @@ export const generateBadRequest: RequestHandler = (request, response, next) => {
     next();
   } else {
     next(
-      createHttpError(400, "Errors during character validation", {
+      createHttpError(400, "Errors during place validation", {
         errorsList: errors.array(),
       })
     );
