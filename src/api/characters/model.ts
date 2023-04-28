@@ -10,6 +10,11 @@ const CharactersSchema = new Schema(
   {
     name: { type: String, required: true },
     description: { type: String, required: true },
+    creator: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
   },
   { timestamps: true }
 );

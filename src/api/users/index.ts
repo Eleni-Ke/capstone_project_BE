@@ -43,16 +43,16 @@ usersRouter.post(
   }
 );
 
-// usersRouter.get("/", async (req, res, next) => {
-//     try {
-//       const users = await UsersModel.find();
-//       res.send(users);
-//     } catch (error) {
-//       next(error);
-//     }
-//   });
+usersRouter.get("/", async (req, res, next) => {
+  try {
+    const users = await UsersModel.find();
+    res.send(users);
+  } catch (error) {
+    next(error);
+  }
+});
 
-usersRouter.get("/me", JWTAuthMiddleware, async (req: any, res, next) => {
+usersRouter.get("/account", JWTAuthMiddleware, async (req: any, res, next) => {
   try {
     const user = await UsersModel.findById(req.user!._id);
     res.send(user);
@@ -61,7 +61,7 @@ usersRouter.get("/me", JWTAuthMiddleware, async (req: any, res, next) => {
   }
 });
 
-usersRouter.put("/me", JWTAuthMiddleware, async (req: any, res, next) => {
+usersRouter.put("/account", JWTAuthMiddleware, async (req: any, res, next) => {
   try {
     const updatedUser = await UsersModel.findByIdAndUpdate(
       req.user!._id,
