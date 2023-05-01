@@ -25,11 +25,13 @@ charactersRouter.post(
 );
 
 charactersRouter.get(
-  "/",
+  "/:userId",
   JWTAuthMiddleware,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const characters = await CharactersModel.find();
+      const characters = await CharactersModel.find({
+        creator: req.params.userId,
+      });
       res.send(characters);
     } catch (error) {
       next(error);
@@ -38,11 +40,14 @@ charactersRouter.get(
 );
 
 charactersRouter.get(
-  "/:characterId",
+  "/:userId/:characterId",
   JWTAuthMiddleware,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const character = await CharactersModel.findById(req.params.characterId);
+      const character = await CharactersModel.find({
+        _id: req.params.characterId,
+        creator: req.params.userId,
+      });
       res.send(character);
     } catch (error) {
       next(error);
@@ -51,7 +56,7 @@ charactersRouter.get(
 );
 
 charactersRouter.put(
-  "/:characterId",
+  "/:userId/:characterId",
   JWTAuthMiddleware,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -68,7 +73,7 @@ charactersRouter.put(
 );
 
 charactersRouter.delete(
-  "/:characterId",
+  "/:userId/:characterId",
   JWTAuthMiddleware,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
