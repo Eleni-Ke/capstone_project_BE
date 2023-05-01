@@ -4,8 +4,27 @@ import UsersModel from "./model";
 import { createAccessToken } from "../../lib/auth/tools";
 import createHttpError from "http-errors";
 import { JWTAuthMiddleware } from "../../lib/auth/jwt";
+import passport from "passport";
 
 const usersRouter = Express.Router();
+
+usersRouter.get(
+  "/googleLogin",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+usersRouter.get(
+  "/googleRedirect",
+  passport.authenticate("google", { session: false }),
+  (req: any, res: Response, next: NextFunction) => {
+    try {
+      res.cookie("accessToken", req.user!.accessToken);
+      res.redirect(`${process.env.FE_URL}/home`);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 usersRouter.post(
   "/account",
