@@ -12,15 +12,11 @@ charactersRouter.post(
   JWTAuthMiddleware,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const newCharacter = new CharactersModel({
-        ...req.body,
-        //creator: req.user!,
-      });
+      const newCharacter = new CharactersModel(req.body);
       const { _id } = await newCharacter.save();
       res.status(201).send({
         character: newCharacter,
         id: _id,
-        creator: req.user,
       });
     } catch (error) {
       next(error);
