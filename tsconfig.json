@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "typeRoots": ["./node_modules/@types", "./src/types/custom.d.ts"]
+  },
+  "include": ["src/**/*.ts", "src/types/**/*.d.ts"]
+}

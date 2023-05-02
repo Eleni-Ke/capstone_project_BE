@@ -1,9 +1,9 @@
 import createHttpError from "http-errors";
 import { verifyAccessToken } from "./tools";
-import { RequestHandler } from "express";
+import { Request, RequestHandler } from "express";
 
 export const JWTAuthMiddleware: RequestHandler = async (
-  req: any,
+  req: Request,
   res,
   next
 ) => {
