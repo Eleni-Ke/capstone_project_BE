@@ -20,7 +20,7 @@ charactersRouter.post(
       res.status(201).send({
         character: newCharacter,
         id: _id,
-        creator: req.user,
+        creator: req.user?._id,
       });
     } catch (error) {
       next(error);

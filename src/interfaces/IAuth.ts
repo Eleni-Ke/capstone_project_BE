@@ -1,7 +1,7 @@
 import { Request } from "express";
 
 export interface TokenPayload {
-  _id: string;
+  _id: import("mongoose").Types.ObjectId;
 }
 
 export interface UserRequest extends Request {

@@ -1,8 +1,9 @@
-import mongoose from "mongoose";
+import mongoose, { Document, Model } from "mongoose";
 import bcrypt from "bcrypt";
-import { UserDocument, UserModel } from "../../interfaces/IUser";
 
 const { Schema, model } = mongoose;
+
+//interface UserDocument extends User, Document {}
 
 const UsersSchema = new Schema(
   {
@@ -50,4 +51,4 @@ UsersSchema.static("checkCredentials", async function (email, plainPW) {
   }
 });
 
-export default model<UserDocument, UserModel>("user", UsersSchema);
+export default model<User>("user", UsersSchema) as Model<User, {}, UserMethods>;
