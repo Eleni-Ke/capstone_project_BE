@@ -22,6 +22,12 @@ const placeSchema: Schema<"isString" | "in"> = {
         "Description is a mandatory field and needs to be a string!",
     },
   },
+  creator: {
+    in: "body" as Location,
+    isString: {
+      errorMessage: "Creator is a mandatory field and needs to be a string!",
+    },
+  },
 };
 
 export const checkPlaceSchema = checkSchema(placeSchema);
