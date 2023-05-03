@@ -10,6 +10,7 @@ const CharactersSchema = new Schema(
   {
     name: { type: String, required: true },
     description: { type: String, required: true },
+    images: { type: [String], required: false },
     creator: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
