@@ -42,7 +42,7 @@ charactersRouter.post(
   checkCharacterSchema,
   generateBadRequest,
   JWTAuthMiddleware,
-  async (req: any, res: Response, next: NextFunction) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     try {
       const newCharacter = new CharactersModel({
         ...req.body,

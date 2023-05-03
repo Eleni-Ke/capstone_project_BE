@@ -1,7 +1,22 @@
 {
   "compilerOptions": {
+    "target": "ES2022",
+    "module": "commonjs",
+    "sourceMap": true,
+    "outDir": "build",
+    "strict": true,
+
+    "moduleResolution": "node",
+    "paths": {
+      "*": ["./node_modules/*"]
+    },
+    "types": ["./src/types/custom.d.ts"],
     "esModuleInterop": true,
-    "typeRoots": ["./node_modules/@types", "./src/types/custom.d.ts"]
+
+    "experimentalDecorators": true,
+
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*.ts", "src/types/**/*.d.ts"]
+  "include": ["src/**/*", "src/types/*"]
 }
