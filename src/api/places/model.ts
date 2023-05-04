@@ -7,6 +7,7 @@ const PlacesSchema = new Schema(
   {
     placeName: { type: String, required: true },
     description: { type: String, required: true },
+    images: { type: [String], required: false },
     creator: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
@@ -15,5 +16,14 @@ const PlacesSchema = new Schema(
   },
   { timestamps: true }
 );
+
+PlacesSchema.methods.toJSON = function () {
+  const currentPlaceDocument = this;
+  const currentPlace = currentPlaceDocument.toObject();
+  delete currentPlace.createdAt;
+  delete currentPlace.updatedAt;
+  delete currentPlace.__v;
+  return currentPlace;
+};
 
 export default model<PlaceDocument, PlaceModel>("place", PlacesSchema);

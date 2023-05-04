@@ -19,17 +19,19 @@ const cloudinaryUploader = multer({
 }).single("characterImage");
 
 charactersRouter.post(
-  "/image/:characterId",
+  "/:characterId/image",
   JWTAuthMiddleware,
   cloudinaryUploader,
   async (req: Request, res, next) => {
     try {
       const character = await CharactersModel.findByIdAndUpdate(
-        req.params.characterId,
+        {
+          _id: req.params.characterId,
+          crator: req.user?._id,
+        },
         { $push: { images: req.file!.path } },
         { new: true, runValidators: true }
       );
-      // avatar: req.file.path
       res.send({ character });
     } catch (error) {
       next(error);
@@ -46,13 +48,12 @@ charactersRouter.post(
     try {
       const newCharacter = new CharactersModel({
         ...req.body,
-        // creator: req.user!._id,
+        creator: req.user?._id,
       });
       const { _id } = await newCharacter.save();
       res.status(201).send({
         character: newCharacter,
         id: _id,
-        creator: req.user?._id,
       });
     } catch (error) {
       next(error);

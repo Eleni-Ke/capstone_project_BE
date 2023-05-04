@@ -20,14 +20,14 @@ const CharactersSchema = new Schema(
   { timestamps: true }
 );
 
-// CharactersSchema.methods.toJSON = function () {
-//   const currentCharacterDocument = this;
-//   const currentCharacter = currentCharacterDocument.toObject();
-//   delete currentCharacter.createdAt;
-//   delete currentCharacter.updatedAt;
-//   delete currentCharacter.__v;
-//   return currentCharacter;
-// };
+CharactersSchema.methods.toJSON = function () {
+  const currentCharacterDocument = this;
+  const currentCharacter = currentCharacterDocument.toObject();
+  delete currentCharacter.createdAt;
+  delete currentCharacter.updatedAt;
+  delete currentCharacter.__v;
+  return currentCharacter;
+};
 
 export default model<CharacterDocument, CharacterModel>(
   "character",
