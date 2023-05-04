@@ -76,13 +76,13 @@ charactersRouter.get(
 );
 
 charactersRouter.get(
-  "/:userId/:characterId",
+  "/:characterId",
   JWTAuthMiddleware,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const character = await CharactersModel.find({
         _id: req.params.characterId,
-        creator: req.params.userId,
+        creator: req.user?._id,
       });
       res.send(character);
     } catch (error) {
@@ -92,12 +92,15 @@ charactersRouter.get(
 );
 
 charactersRouter.put(
-  "/:userId/:characterId",
+  "/:characterId",
   JWTAuthMiddleware,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const updatedCharacter = await CharactersModel.findByIdAndUpdate(
-        req.params.characterId,
+      const updatedCharacter = await CharactersModel.findOneAndUpdate(
+        {
+          _id: req.params.characterId,
+          creator: req.user?._id,
+        },
         req.body,
         { new: true, runValidators: true }
       );
@@ -109,13 +112,14 @@ charactersRouter.put(
 );
 
 charactersRouter.delete(
-  "/:userId/:characterId",
+  "/:characterId",
   JWTAuthMiddleware,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const deletedCharacter = await CharactersModel.findByIdAndDelete(
-        req.params.characterId
-      );
+      const deletedCharacter = await CharactersModel.findOneAndDelete({
+        _id: req.params.characterId,
+        creator: req.user?._id,
+      });
       if (deletedCharacter) {
         res.status(204).send();
       }
