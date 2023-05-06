@@ -82,7 +82,7 @@ placesRouter.get(
         _id: req.params.placeId,
         creator: req.user?._id,
       });
-      res.send(place);
+      res.send({ place });
     } catch (error) {
       next(error);
     }
