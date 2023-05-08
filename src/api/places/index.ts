@@ -6,6 +6,7 @@ import multer from "multer";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import { Params } from "express-serve-static-core";
 import { v2 as cloudinary } from "cloudinary";
+import createHttpError from "http-errors";
 
 const placesRouter = Express.Router();
 
@@ -120,6 +121,8 @@ placesRouter.delete(
       });
       if (deletedPlace) {
         res.status(204).send();
+      } else {
+        next(createHttpError(404, "You don't have a place with that ID."));
       }
     } catch (error) {
       next(error);
