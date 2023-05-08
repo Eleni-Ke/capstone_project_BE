@@ -13,7 +13,7 @@ passport.use("google", googleStrategy);
 
 // ************************************* MIDDLEWARES **********************************
 server.use(cors());
-server.use(Express.json());
+server.use(Express.json({ limit: "25mb" }));
 
 // ************************************** ENDPOINTS ***********************************
 server.use("/users", usersRouter);
