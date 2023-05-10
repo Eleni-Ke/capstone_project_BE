@@ -6,11 +6,17 @@ import {
 
 const { Schema, model } = mongoose;
 
+const RelationshipSchema = new Schema({
+  partner: { type: mongoose.Schema.Types.ObjectId, required: true },
+  relationshipType: { type: String, required: true },
+});
+
 const CharactersSchema = new Schema(
   {
     name: { type: String, required: true },
     description: { type: String, required: true },
     images: { type: [String], required: false },
+    relationships: { type: [RelationshipSchema], required: false },
     creator: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",

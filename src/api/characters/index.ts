@@ -51,9 +51,35 @@ charactersRouter.post(
         creator: req.user?._id,
       });
       const { _id } = await newCharacter.save();
+      if (req.body.relationships) {
+        req.body.relationships.map(async (relationship: any) => {
+          const updatedCharacter = await CharactersModel.findOneAndUpdate(
+            {
+              _id: relationship.partner,
+              creator: req.user?._id,
+            },
+            {
+              $push: {
+                relationships: {
+                  partner: _id,
+                  relationshipType: relationship.relationshipType,
+                },
+              },
+            },
+            { new: true, runValidators: true }
+          );
+          if (updatedCharacter) {
+            console.log("Relationship added to both partners!");
+          } else {
+            console.log(
+              "There has been an issue updating the partners relationships..."
+            );
+          }
+        });
+      }
+
       res.status(201).send({
         character: newCharacter,
-        id: _id,
       });
     } catch (error) {
       next(error);

@@ -4,6 +4,7 @@ interface Character {
   name: string;
   descriptopm: string;
   images: string[];
+  relationships: [];
   creator: mongoose.Types.ObjectId;
 }
 
