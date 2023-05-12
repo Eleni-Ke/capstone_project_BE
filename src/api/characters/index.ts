@@ -6,6 +6,7 @@ import multer from "multer";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import { Params } from "express-serve-static-core";
 import { v2 as cloudinary } from "cloudinary";
+import createHttpError from "http-errors";
 
 const charactersRouter = Express.Router();
 
@@ -33,6 +34,54 @@ charactersRouter.post(
         { new: true, runValidators: true }
       );
       res.send({ character });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+charactersRouter.post(
+  "/:characterId/relationship",
+  JWTAuthMiddleware,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      if (req.body.relationships) {
+        const updatedCharacter = await CharactersModel.findOneAndUpdate(
+          {
+            _id: req.params.characterId,
+            creator: req.user?._id,
+          },
+          { $push: { relationships: req.body.relationships } },
+          { new: true, runValidators: true }
+        );
+        req.body.relationships.map(async (relationship: any) => {
+          const updatedPartner = await CharactersModel.findOneAndUpdate(
+            {
+              _id: relationship.partner,
+              creator: req.user?._id,
+            },
+            {
+              $push: {
+                relationships: {
+                  partner: req.params.characterId,
+                  relationshipType: relationship.relationshipType,
+                },
+              },
+            },
+            { new: true, runValidators: true }
+          );
+          if (updatedPartner) {
+            console.log("Relationship added to both partners!");
+          } else {
+            console.log(
+              "There has been an issue updating the partners relationships..."
+            );
+          }
+        });
+        res.send(updatedCharacter);
+      } else {
+        next(createHttpError(404, "Please add relationships."));
+      }
     } catch (error) {
       next(error);
     }
