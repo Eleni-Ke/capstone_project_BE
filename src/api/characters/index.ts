@@ -197,6 +197,13 @@ charactersRouter.delete(
         creator: req.user?._id,
       });
       if (deletedCharacter) {
+        const partnerIds = deletedCharacter.relationships.map(
+          (relationship: any) => relationship.partner
+        );
+        await CharactersModel.updateMany(
+          { _id: { $in: partnerIds } },
+          { $pull: { relationships: { partner: req.params.characterId } } }
+        );
         res.status(204).send();
       }
     } catch (error) {
