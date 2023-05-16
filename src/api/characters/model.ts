@@ -15,6 +15,11 @@ const CharactersSchema = new Schema(
   {
     name: { type: String, required: true },
     description: { type: String, required: true },
+    age: { type: String, required: false },
+    appearance: { type: String, required: false },
+    strengths: { type: String, required: false },
+    weaknesses: { type: String, required: false },
+    superPower: { type: String, required: false },
     images: { type: [String], required: false },
     relationships: { type: [RelationshipSchema], required: false },
     creator: {
