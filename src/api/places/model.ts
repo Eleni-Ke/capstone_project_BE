@@ -8,6 +8,11 @@ const PlacesSchema = new Schema(
     placeName: { type: String, required: true },
     description: { type: String, required: true },
     images: { type: [String], required: false },
+    owner: { type: String, required: false },
+    smells: { type: String, required: false },
+    type: { type: String, required: false },
+    lighting: { type: String, required: false },
+    events: { type: String, required: false },
     creator: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
