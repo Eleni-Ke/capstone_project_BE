@@ -6,6 +6,7 @@ import charactersRouter from "./api/characters";
 import placesRouter from "./api/places";
 import passport from "passport";
 import googleStrategy from "./lib/auth/googleAuth";
+import notesRouter from "./api/notes";
 
 const server = Express();
 
@@ -19,6 +20,7 @@ server.use(Express.json({ limit: "25mb" }));
 server.use("/users", usersRouter);
 server.use("/characters", charactersRouter);
 server.use("/places", placesRouter);
+server.use("/notes", notesRouter);
 
 // ************************************* ERROR HANDLERS *******************************
 server.use(badRequestHandler);
