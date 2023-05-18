@@ -1,6 +1,9 @@
 import passportGoogle from "passport-google-oauth20";
 import UsersModel from "../../api/users/model";
 import { createAccessToken } from "./tools";
+import { config } from "dotenv";
+
+config();
 
 const GoogleStrategy = passportGoogle.Strategy;
 
