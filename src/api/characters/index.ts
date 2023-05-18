@@ -7,6 +7,8 @@ import { CloudinaryStorage } from "multer-storage-cloudinary";
 import { Params } from "express-serve-static-core";
 import { v2 as cloudinary } from "cloudinary";
 import createHttpError from "http-errors";
+import { RelationshipDocument } from "../../interfaces/IRelationship";
+import { CharacterDocument } from "../../interfaces/ICharacters";
 
 const charactersRouter = Express.Router();
 
@@ -81,6 +83,44 @@ charactersRouter.post(
         res.send(updatedCharacter);
       } else {
         next(createHttpError(404, "Please add relationships."));
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+charactersRouter.delete(
+  "/:characterId/relationship/:partnerId",
+  JWTAuthMiddleware,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const updatedCharacter = await CharactersModel.findOneAndUpdate(
+        {
+          _id: req.params.characterId,
+          creator: req.user?._id,
+        },
+        {
+          $pull: {
+            relationships: { partner: req.params.partnerId },
+          },
+        },
+        { new: true }
+      );
+      console.log(`First test, character to change: ${updatedCharacter}`);
+      if (updatedCharacter) {
+        const updatedPartner = await CharactersModel.findOneAndUpdate(
+          { _id: req.params.partnerId, creator: req.user?._id },
+          { $pull: { relationships: { partner: req.params.characterId } } }
+        );
+        if (updatedPartner) {
+          res.status(204).send();
+          console.log(`Second test, updatedPartner: ${updatedPartner}`);
+        } else {
+          next(createHttpError(404, "Partner not found."));
+        }
+      } else {
+        next(createHttpError(404, "Character not found."));
       }
     } catch (error) {
       next(error);
