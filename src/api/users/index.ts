@@ -62,7 +62,7 @@ usersRouter.post(
   }
 );
 
-usersRouter.get("/", async (req, res, next) => {
+usersRouter.get("/", JWTAuthMiddleware, async (req, res, next) => {
   try {
     const users = await UsersModel.find();
     res.send(users);

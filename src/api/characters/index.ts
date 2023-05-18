@@ -160,8 +160,18 @@ charactersRouter.get(
         _id: req.params.characterId,
         creator: req.user?._id,
       });
-      res.send(character);
+      if (character) {
+        res.send(character);
+      } else {
+        next(
+          createHttpError(
+            404,
+            `Relationship with id: ${req.params.characterId} not found`
+          )
+        );
+      }
     } catch (error) {
+      console.log(`The error is: ${error}`);
       next(error);
     }
   }

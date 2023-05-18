@@ -1,6 +1,12 @@
 import Express from "express";
 import cors from "cors";
-import { badRequestHandler, genericErrorHandler } from "./errorHandlers";
+import {
+  badRequestHandler,
+  forbiddenHandler,
+  genericErrorHandler,
+  notFoundHandler,
+  unauthorizedHandler,
+} from "./errorHandlers";
 import usersRouter from "./api/users";
 import charactersRouter from "./api/characters";
 import placesRouter from "./api/places";
@@ -24,6 +30,9 @@ server.use("/notes", notesRouter);
 
 // ************************************* ERROR HANDLERS *******************************
 server.use(badRequestHandler);
+server.use(unauthorizedHandler);
+server.use(forbiddenHandler);
+server.use(notFoundHandler);
 server.use(genericErrorHandler);
 
 export default server;
