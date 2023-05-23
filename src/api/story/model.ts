@@ -8,12 +8,12 @@ const StorySchema = new Schema(
     title: { type: String, required: true },
     event: { type: String, required: true },
     characters: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: [mongoose.Schema.Types.ObjectId],
       ref: "characters",
       required: false,
     },
     places: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: [mongoose.Schema.Types.ObjectId],
       ref: "places",
       required: false,
     },
