@@ -13,6 +13,7 @@ import placesRouter from "./api/places";
 import passport from "passport";
 import googleStrategy from "./lib/auth/googleAuth";
 import notesRouter from "./api/notes";
+import storyRouter from "./api/story";
 
 const server = Express();
 
@@ -27,6 +28,7 @@ server.use("/users", usersRouter);
 server.use("/characters", charactersRouter);
 server.use("/places", placesRouter);
 server.use("/notes", notesRouter);
+server.use("/stories", storyRouter);
 
 // ************************************* ERROR HANDLERS *******************************
 server.use(badRequestHandler);

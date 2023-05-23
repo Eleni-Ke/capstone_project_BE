@@ -1,10 +1,11 @@
-import mongoose, {Model, Document} from "mongoose"
+import mongoose, { Model, Document } from "mongoose";
 
 interface Story {
-    title: string,
-    event: string,
-    characters: mongoose.Types.ObjectId[]
-    places: mongoose.Types.ObjectId[]
+  title: string;
+  event: string;
+  characters: mongoose.Types.ObjectId[];
+  places: mongoose.Types.ObjectId[];
+  creator: mongoose.Types.ObjectId;
 }
 
 export interface StoryDocument extends Story, Document {}

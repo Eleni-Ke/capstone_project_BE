@@ -179,7 +179,7 @@ charactersRouter.post(
 charactersRouter.get(
   "/",
   JWTAuthMiddleware,
-  async (req: any, res: Response, next: NextFunction) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     try {
       const characters = await CharactersModel.find({
         creator: req.user!._id,
