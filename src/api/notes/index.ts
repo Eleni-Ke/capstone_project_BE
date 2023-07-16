@@ -19,6 +19,7 @@ notesRouter.post(
       });
       const { _id } = await newNote.save();
       console.log(_id);
+      console.log(req);
       res.status(201).send(newNote);
     } catch (error) {
       next(error);
